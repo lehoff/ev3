@@ -6,7 +6,6 @@ defmodule EV3.Motor do
   end
     
   def start_link id, port_name, type do
-    # @todo check that args are correct
     ^port_name = id_port_name id
     ^type = id_type id                                   
     Agent.start_link(fn() -> %State{id: id, port_name: port_name, type: type} end)
@@ -60,19 +59,19 @@ defmodule EV3.Motor do
 
   
   # Private helper functions
-  def id_port_name id do
+  defp id_port_name id do
     id_path(id, "port_name") |> EV3.Util.read!  |> EV3.Util.port_name_from_string
   end
 
-  def id_path id, attr do
+  defp id_path id, attr do
     @path_start <> "#{Integer.to_string id}/" <> attr
   end
   
-  def id_type id do
+  defp id_type id do
     id_path(id, "type") |> EV3.Util.read!  |> type_from_string
   end
 
-  def type_from_string(str), do: String.to_atom(str)
+  defp type_from_string(str), do: String.to_atom(str)
 
   
   
