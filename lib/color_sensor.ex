@@ -27,10 +27,11 @@ defmodule EV3.ColorSensor do
   def set_mode(sensor, mode) do
     Agent.cast(sensor,
       fn s ->
-        id_path(s.id, "mode") |> EV3.Util.write! mode_to_string(mode)
+         (id_path(s.id, "mode") |> EV3.Util.write! mode_to_string(mode))
+        s
       end)
-  end
-
+  end  
+  
   def value(sensor) do
     case mode(sensor) do
       :col_color ->
